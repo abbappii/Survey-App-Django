@@ -8,3 +8,8 @@ class GetSurveySerializer(serializers.ModelSerializer):
         model = Survey
         fields = ['name','description',]
 
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = '__all__'
