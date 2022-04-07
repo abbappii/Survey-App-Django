@@ -11,11 +11,11 @@ class Survey(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
 
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
-
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -41,7 +41,7 @@ class Question(models.Model):
     question_type = models.CharField(max_length=20, choices=Question_choice)
 
     def __str__(self):
-        return self.question_title
+        return self.question_text
 
 
 class Answer(models.Model):
