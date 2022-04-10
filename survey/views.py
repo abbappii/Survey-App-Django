@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from survey import serializers
 
 from .models import Survey, Question, Answer
 
@@ -32,3 +31,5 @@ def post(request, *args, **kwargs):
 
 
 
+def test(request):
+    return render(request,'api_url_check.html')
