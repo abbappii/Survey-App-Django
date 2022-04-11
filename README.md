@@ -1,6 +1,6 @@
 Django Survey app
 
-
+``` 
 Setup:
 
 LinuxOS
@@ -18,7 +18,7 @@ home page: /survey/home/
 
 Ex: http://127.0.0.1:8000/survey/home/
 
-
+```bash
 
 windows 
 
@@ -54,3 +54,13 @@ login example:
 
 username: impelit
 password: impelit
+
+# homepage
+(docs/homepage.png)
+
+
+#surveypage
+(docs/survey_list_page.png)
+
+#survey question example
+(docs/survey_question_ex.png)
