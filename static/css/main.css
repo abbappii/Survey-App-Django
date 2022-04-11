@@ -1,0 +1,26 @@
+
+body{
+    font-family: sans-serif;
+    background-color: white;    
+}
+
+.test{
+    background-image: url(/static/img/s3.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 500px;
+}
+
+.survey_start{
+    padding: 20px;
+    margin: 5px;
+}
+
+.btn{
+    background-color: crimson;
+}
+
+.lnk{
+    color: white;
+    text-decoration: none;
+}
