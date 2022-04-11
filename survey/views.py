@@ -1,35 +1,37 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework.generics import ListAPIView
 
 from .models import Survey, Question, Answer
 
-from .serializers import GetSurveySerializer, AnswerSerializer
+from .serializers import AnswerSerializer, QuestionSerializer, SurveySerializer
 
-@api_view(['GET'])
-def get(request, *ars, **kwargs):
-    qs = Survey.objects.all()
-    serializer = GetSurveySerializer(qs, many=True)
-    return Response(serializer.data)
+class AnswerListAPIView(ListAPIView):
 
-@api_view(['POST'])
-def post(request, *args, **kwargs):
+    serializer_class = AnswerSerializer
+    
+    def get_queryset(self):
+        queryset = Answer.objects.all()
+        question = self.request.query_params.get('question')
+        if question is not None:
+            queryset = queryset.filter(question_id=question)
+        return queryset
 
-    if request.method == 'POST':
-        serializer = AnswerSerializer(data = request.data)
+class QuestionListAPIView(ListAPIView):
+    serializer_class = QuestionSerializer
 
-        #  submited value validation check and save
-        if serializer.is_valid(raise_exception=True):
-            question = serializer.validated_data.get('question')
-            answer = serializer.validated_data.get('answer')
-
-            serializer.save()
-            return Response(serializer.data)
-
-        # if data not valid will show error stautus
-        return Response({"invalid data"}, status=400)
+    def get_queryset(self):
+        queryset = Question.objects.all()
+        survey = self.request.query_params.get('survey')
+        if survey is not None:
+            queryset = queryset.filter(survey_id=survey)
+        return queryset
 
 
+class SurveyListAPIView(ListAPIView):
 
-def test(request):
-    return render(request,'api_url_check.html')
+    queryset = Survey.objects.all()
+    serializer_class = SurveySerializer
+
+
+def indexPage(request):
+    return render(request, 'index.html')

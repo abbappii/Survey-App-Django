@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="mb-3">Survey Started</h1>
+<h4 class="timer"></h4>
+
+<div id="carouselExampleCaptions" class="carousel slide mb-5">
+  <div class="carousel-inner">
+    
+  </div>
+  <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </button>
+</div>
+
+<div class="answer-options mb-3">
+    
+</div>
+
+<button type="button" class="btn-lg btn-primary">
+  Submit Survey
+</button>
+
+{% endblock %}
+
+{% block script %}
+<script>
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    const refreshIntervalId = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent ="Time Remaining - " + minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            alert("Time up")
+            clearInterval(refreshIntervalId);
+            $('.timer').text("Time Up!")
+        }
+    }, 1000);
+}
+
+$( document ).ready(function() {
+    startTimer(300, document.querySelector(".timer"))
+
+    let carouselInner = document.querySelector(".carousel-inner")
+    let answerOptions = document.querySelector(".answer-options")
+    $.get("/survey/question/list/?survey={{ view.kwargs.pk }}", function( data ) {
+      
+      $.each(data, function( index, value ) {
+        let div = document.createElement('div')
+        div.setAttribute('class', 'carousel-item')
+        if(value.id === 1) {
+          div.setAttribute('class', 'carousel-item active')
+        }
+        div.dataset.id = value.id
+        div.dataset.type = value.question_type
+        let div2 = document.createElement('div')
+        div2.setAttribute('class', 'w-100 bg-primary text-white d-flex justify-content-center p-5')
+        div2.innerHTML = value.question_text
+        div.appendChild(div2)
+        carouselInner.appendChild(div)
+      });
+
+      
+    });
+
+    $('.carousel').carousel({
+      interval: false
+    })
+
+    $('#carouselExampleCaptions').on('slide.bs.carousel', function (event) {
+      const div =  $(event.relatedTarget)
+      qs_type = div.data('type')
+      console.log(qs_type)
+
+      if(qs_type === 'text') {
+        answerOptions.innerHTML = ""
+        let div = document.createElement("div")
+        div.setAttribute("class", "form-group form-input")
+        let answer = document.createElement("textarea");
+        answer.setAttribute("class", "form-control");
+        div.appendChild(answer)
+         answerOptions.appendChild(div)
+
+      } else {
+          $.get("/survey/question/answer/list/?question="+div.data('id'), function( data ) {
+            answerOptions.innerHTML = ""
+            $.each(data, function( index, value ) {
+              let div = document.createElement("div")
+              div.setAttribute("class", "form-group form-check")
+              let answer = document.createElement("input");
+              if(qs_type === 'radio') {
+                answer.setAttribute("type", "radio");
+                answer.setAttribute("name", "exampleCheck");
+              } else if (qs_type === 'Checkbox List') {
+                answer.setAttribute("type", "checkbox");
+              }
+              answer.setAttribute("class", "form-check-input");
+              answer.setAttribute("id", "exampleCheck" + index);
+              let label = document.createElement("label")
+              label.setAttribute("class", "form-check-label")
+              label.setAttribute("for", "exampleCheck" + index)
+              label.innerHTML = value.answer
+              div.appendChild(answer)
+              div.appendChild(label)
+              answerOptions.appendChild(div)
+            })
+          })
+        }
+      })
+});
+
+</script>
+
+{% endblock script %}

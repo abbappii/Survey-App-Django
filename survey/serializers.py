@@ -3,13 +3,22 @@ from rest_framework import serializers
 from .models import Survey, Question, Answer
 
 
-class GetSurveySerializer(serializers.ModelSerializer):
+class QuestionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+
+class SurveySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Survey
-        fields = ['name','description',]
+        fields = '__all__'
 
 
 class AnswerSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Answer
         fields = '__all__'
