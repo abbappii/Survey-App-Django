@@ -56,11 +56,11 @@ username: impelit
 password: impelit
 
 # homepage
-(docs/homepage.png)
+![homepage](docs/homepage.png)
 
 
 #surveypage
-(docs/survey_list_page.png)
+![survey_list_page](docs/survey_list_page.png)
 
 #survey question example
-(docs/survey_question_ex.png)
+![survey_question_ex](docs/survey_question_ex.png)
