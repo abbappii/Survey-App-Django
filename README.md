@@ -60,7 +60,7 @@ password: impelit
 
 
 #surveypage
-![survey_list_page](docs/survey_list_page.png)
+![survey_list_page]("docs/survey_list_page.png")
 
 #survey question example
 ![survey_question_ex](docs/survey_question_ex.png)
