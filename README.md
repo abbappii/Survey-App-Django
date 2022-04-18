@@ -18,7 +18,8 @@ home page: /survey/home/
 
 Ex: http://127.0.0.1:8000/survey/home/
 
-```bash
+
+
 
 windows 
 
@@ -54,3 +55,6 @@ login example:
 
 username: impelit
 password: impelit
+
+
+```
